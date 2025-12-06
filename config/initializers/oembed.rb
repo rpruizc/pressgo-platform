@@ -1,15 +1,3 @@
-# See the Ruby OEmbed GitHub for more details
-# https://github.com/ruby-oembed/ruby-oembed
-
-# Facebook/Instagram requires an `OEMBED_FACEBOOK_TOKEN` env var.
-# This token is either a Facebook App Access Token (recommended) or Client Access Token.
-
-OEmbed::Providers.register_all
-OEmbed::Providers.register_fallback(
-  OEmbed::ProviderDiscovery,
-  OEmbed::Providers::Noembed
-)
-
 # Allow injecting OEmbed HTML into ActionText, but only allow script tags from trusted sources
 # Soundcloud, Spotify, Vimeo, and YouTube use iframe embeds instead of script tags
 Rails.application.config.to_prepare do
