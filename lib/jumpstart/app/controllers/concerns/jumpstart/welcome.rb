@@ -2,8 +2,8 @@ module Jumpstart::Welcome
   extend ActiveSupport::Concern
 
   included do
-    prepend_before_action :upgrade_yaml_config
     prepend_before_action :jumpstart_welcome
+    prepend_before_action :upgrade_yaml_config
   end
 
   def jumpstart_welcome
