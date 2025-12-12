@@ -16,5 +16,4 @@ class Jumpstart::OverrideGenerator < Rails::Generators::NamedBase
   def directory?(path)
     Dir.exist? find_in_source_paths(path)
   end
-
 end
