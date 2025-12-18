@@ -165,7 +165,7 @@ module Jumpstart
       @support_email = options["support_email"] || "support@example.com"
       @default_from_email = options["default_from_email"] || "My App <no-reply@example.com>"
       @background_job_processor = QUEUE_ADAPTERS.values.include?(options["background_job_processor"]) ? options["background_job_processor"] : nil
-      @email_provider = options["email_provider"].map(&:to_s)
+      @email_provider = options["email_provider"]
       @account_types = options["account_types"] || (cast_to_boolean(options["personal_accounts"], default: true) ? "both" : "team")
       @apns = cast_to_boolean(options["apns"])
       @fcm = cast_to_boolean(options["fcm"])
