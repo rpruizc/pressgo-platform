@@ -49,6 +49,8 @@ module JumpstartApp
     # If you need to use imagemagick, uncomment this to switch
     # config.active_storage.variant_processor = :mini_magick
 
+    config.railties_order = [:main_app, Jumpstart::Engine, :all]
+
     # Support older SHA1 digests for ActiveStorage so ActionText attachments don't break
     config.after_initialize do |app|
       app.message_verifier("ActiveStorage").rotate(digest: "SHA1")
