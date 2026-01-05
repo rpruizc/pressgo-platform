@@ -8,8 +8,8 @@ class ActionText::Embed < ApplicationRecord
   class Scrubber < Rails::HTML::PermitScrubber
     def initialize(...)
       super
-      self.tags = ActionText::ContentHelper.allowed_tags || (ActionText::ContentHelper.sanitizer.class.allowed_tags + [ ActionText::Attachment.tag_name, "figure", "figcaption", "iframe", "blockquote", "time" ])
-      self.attributes = ActionText::ContentHelper.allowed_attributes || (ActionText::ContentHelper.sanitizer.class.allowed_attributes + ActionText::Attachment::ATTRIBUTES + [ "data-id", "data-flickr-embed", "target", "allow", "frameborder", "referrerpolicy", "allowfullscreen", "loading" ])
+      self.tags = ActionText::ContentHelper.allowed_tags || (ActionText::ContentHelper.sanitizer.class.allowed_tags + [ActionText::Attachment.tag_name, "figure", "figcaption", "iframe", "blockquote", "time"])
+      self.attributes = ActionText::ContentHelper.allowed_attributes || (ActionText::ContentHelper.sanitizer.class.allowed_attributes + ActionText::Attachment::ATTRIBUTES + ["data-id", "data-flickr-embed", "target", "allow", "frameborder", "referrerpolicy", "allowfullscreen", "loading"])
     end
 
     def scrub(node)
