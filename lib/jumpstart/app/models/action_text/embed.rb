@@ -27,13 +27,59 @@ class ActionText::Embed < ApplicationRecord
     /^https:\/\/platform.twitter.com/
   ]
 
-  # Any providers that don't support discovery can be added here
+  # Allowed OEmbed providers
   PROVIDERS = {
+    bluesky: {
+      endpoint: "https://embed.bsky.app/oembed",
+      urls: [
+        /^https:\/\/bsky.app.profile\/.*\/post\/.*/
+      ]
+    },
+    imgur: {
+      endpoint: "https://api.imgur.com/oembed",
+      urls: [
+        /https?:\/\/(.+\.)?imgur\.com\/.*/
+      ]
+    },
+    reddit: {
+      endpoint: "https://www.rddit.com/oembed",
+      urls: [
+        /^https?:\/\/(www\.)?reddit\.com\/r[^\/]+\/comments\/.*/
+      ]
+    },
+    soundcloud: {
+      endpoint: "https://soundcloud.com/oembed",
+      urls: [
+        /^https?:\/\/(www\.)?soundcloud\.com\/.*/
+      ]
+    },
+    spotify: {
+      endpoint: "https://embed.spotify.com/oembed/",
+      urls: [
+        /^https?:\/\/(open|play)\.spotify\.com\/.*/
+      ]
+    },
+    vimeo: {
+      endpoint: "https://vimeo.com/api/oembed",
+      urls: [
+        /^https?:\/\/(.+\.)?vimeo\.com/
+      ]
+    },
     x: {
       endpoint: "https://publish.twitter.com/oembed",
       urls: [
-        Regexp.new("^https:\\/\\/([^\\.]+\\.)?twitter\\.com\\/(.*?)\\/status\\/(.*?)"),
-        Regexp.new("^https:\\/\\/([^\\.]+\\.)?x\\.com\\/(.*?)\\/status\\/(.*?)")
+        /^https?:\/\/(www\.)?twitter\.com\/(.*?)\/status(es)?\/.*/,
+        /^https?:\/\/(www\.)?x\.com\/(.*?)\/status(es)?\/.*/
+      ]
+    },
+    youtube: {
+      endpoint: "https://www.youtube.com/oembed",
+      urls: [
+        /^https?:\/\/((m|www)\.)?youtube\.com\/watch.*/,
+        /^https?:\/\/((m|www)\.)?youtube\.com\/playlist.*/,
+        /^https?:\/\/((m|www)\.)?youtube\.com\/shorts.*/,
+        /^https?:\/\/((m|www)\.)?youtube\.com\/live.*/,
+        /^https?:\/\/([^.]+\.)?youtu\.be\/(.*?)/
       ]
     }
   }.freeze
@@ -43,8 +89,6 @@ class ActionText::Embed < ApplicationRecord
 
   # Creates an ActionText::Embed from a URL
   def self.from_oembed(url)
-    return unless allowed?(url)
-
     if (endpoint = endpoint_for(url))
       uri = URI.parse(endpoint).tap { it.query = {url: url}.to_query }
       response = JSON.parse Net::HTTP.get(uri)
@@ -53,27 +97,13 @@ class ActionText::Embed < ApplicationRecord
   end
 
   # Returns OEmbed endpoint for URL
-  def self.endpoint_for(url)
-    provider_for(url)&.dig(:endpoint) || discover_endpoint_for(url)
-  end
+  def self.endpoint_for(url) = provider_for(url)&.dig(:endpoint)
 
   def self.provider_for(url)
     PROVIDERS.values.find do |conf|
       conf.dig(:urls).any? { it.match?(url) }
     end
   end
-
-  # Retrieves OEmbed URL from HTML page
-  def self.discover_endpoint_for(url)
-    doc = Nokogiri::HTML(Net::HTTP.get(URI(url)))
-    if (link = doc.xpath("//link[contains(@type, 'json+oembed')]/@href").first)
-      URI.parse(link).tap { it.query = nil }.to_s
-    end
-  rescue URI::Error
-  end
-
-  # Checks if URL is allowed for embedding
-  def self.allowed?(url) = endpoint_for(url)
 
   # Returns boolean if embed's script tags are allowed
   def self.allowed_script?(node)
