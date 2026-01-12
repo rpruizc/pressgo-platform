@@ -45,7 +45,7 @@ RUN apt-get update -qq && \
 # Install application gems
 COPY Gemfile Gemfile.jumpstart Gemfile.lock ./.ruby-version vendor ./
 COPY ./lib/jumpstart/ ./lib/jumpstart/
-COPY ./config/jumpstart.yml* ./config/jumpstart.yml
+COPY ./config/jumpstart.rb ./config/jumpstart.rb
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
