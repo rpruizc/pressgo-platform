@@ -33,6 +33,17 @@ class CreateNoticedTables < ActiveRecord::Migration[6.1]
 
     Noticed::Event.reset_column_information
 
+    migrate_notifications if table_exists?(:notifications)
+  end
+
+  def self.down
+    drop_table :noticed_events
+    drop_table :noticed_notifications
+  end
+
+  private
+
+  def migrate_notifications
     # Migrate notifications to new tables
     TempNotification.find_each do |notification|
       attributes = notification.attributes.slice("type", "account_id", "created_at", "updated_at").with_indifferent_access
@@ -55,10 +66,5 @@ class CreateNoticedTables < ActiveRecord::Migration[6.1]
 
     # Uncomment after testing the migration
     # drop_table :notifications
-  end
-
-  def self.down
-    drop_table :noticed_events
-    drop_table :noticed_notifications
   end
 end
