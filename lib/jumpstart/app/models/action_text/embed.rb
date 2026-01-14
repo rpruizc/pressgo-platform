@@ -32,7 +32,7 @@ class ActionText::Embed < ApplicationRecord
     bluesky: {
       endpoint: "https://embed.bsky.app/oembed",
       urls: [
-        /^https:\/\/bsky.app.profile\/.*\/post\/.*/
+        /^https:\/\/bsky\.app\/profile\/.*\/post\/.*/
       ]
     },
     imgur: {
@@ -42,9 +42,9 @@ class ActionText::Embed < ApplicationRecord
       ]
     },
     reddit: {
-      endpoint: "https://www.rddit.com/oembed",
+      endpoint: "https://www.reddit.com/oembed",
       urls: [
-        /^https?:\/\/(www\.)?reddit\.com\/r[^\/]+\/comments\/.*/
+        /^https?:\/\/(www\.)?reddit\.com\/r\/[^\/]+\/comments\/.*/
       ]
     },
     soundcloud: {
