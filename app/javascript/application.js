@@ -5,8 +5,10 @@ import "controllers"
 import "src"
 
 // Load after src so extensions work
-import "lexxy"
+import { highlightAll } from "lexxy"
 import "@rails/actiontext"
+document.addEventListener("turbo:load", () => highlightAll())
+document.addEventListener("turbo:morph", () => highlightAll())
 
 import LocalTime from "local-time"
 LocalTime.start()
