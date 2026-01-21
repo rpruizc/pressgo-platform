@@ -303,17 +303,18 @@ section nav form button {
   align-items: center;
   position: relative;
 
-  .menu-component {
+  [popover] {
+    inset: unset;
+    margin: 0;
     position: absolute;
-    top: 100%;
-    right: 0;
+    top: anchor(bottom);
+    right: anchor(right);
+    margin-top: 4px;
   }
 
-  &.left-align {
-    .menu-component {
-      left: 0;
-      right: unset;
-    }
+  &.left-align [popover] {
+    left: anchor(left);
+    right: unset;
   }
 
   @media (min-width: 1024px) {
