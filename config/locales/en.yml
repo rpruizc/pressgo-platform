@@ -46,8 +46,6 @@ en:
     invite:
       subject: "%{inviter} invited you to %{account}"
       header_html: "%{inviter} has invited you to collaborate on <strong>%{account}</strong>"
-      description_html: "You can %{link} this invitation."
-      accept_or_decline: "accept or decline"
       view_invitation: "View invitation"
 
   account_invitations:
