@@ -18,8 +18,8 @@
       </svg>
     </button>
 
+    <%= render "dev_menu" if Rails.env.development? %>
     <% if user_signed_in? %>
-      <%= render "dev_menu" if Rails.env.development? %>
       <%= render "notifications" %>
       <%= render "user_menu" %>
     <% end %>
