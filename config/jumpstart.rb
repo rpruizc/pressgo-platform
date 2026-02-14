@@ -4,7 +4,7 @@ Jumpstart.config = Jumpstart::Configuration.new({"application_name" => "PressGo"
  "domain" => "pressgo.tech",
  "support_email" => "hello@pressgo.tech",
  "default_from_email" => "PressGo <no-reply@pressgo.tech>",
- "background_job_processor" => "sidekiq",
+ "background_job_processor" => "solid_queue",
  "email_provider" => "resend",
  "account_types" => "both",
  "apns" => false,
