@@ -1,0 +1,2 @@
+class NewsletterConfig < AccountRecord
+end
